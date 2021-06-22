@@ -1,0 +1,71 @@
+{% extends 'layouts/default/page.html' %}
+
+{% load bootstrap4 %}
+{% load i18n %}
+
+{% block content %}
+    <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <h4>{% trans 'Transactions' %}</h4>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <a class="float-right btn btn-primary" href="{% url 'accounts:new-transaction' %}">{% trans 'New Transaction' %}</a>
+        </div>
+    </div>
+
+    {% if object_list %}
+        <table id="transactions" class="table table-striped">
+            <tr>
+                <th>{% trans "ID" %}</th>
+                <th>{% trans "Type" %}</th>
+                <th>{% trans "Amount" %}</th>
+                <th>{% trans "From"%} </th>
+                <th>{% trans "Date Time" %}</th>
+            </tr>
+            {% for object in object_list %}
+                <tr>
+                    <td>{{ object.id }}</td>
+                    {% if request.user == object.to_user %}
+                        <td class="text-success">{% trans "Credit" %}</td>
+                    {% else %}
+                        <td class="text-danger">{% trans "Debit" %}</td>
+                    {% endif %}
+                    <td>{{ object.to_amount }} {{ object.to_currency }}</td>
+                    <td>{{ object.from_user }}</td>
+                    <td>{{ object.updated_at }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        {# .... **Now the pagination section** .... #}
+        {% if is_paginated %}
+            <ul class="pagination">
+            {% if page_obj.has_previous %}
+              <li class="page-item">
+                  <a class="page-link" href="?page={{ page_obj.previous_page_number }}">{% trans "Previous" %}</a>
+              </li>
+            {% else %}
+              <li class="page-item disabled">
+                  <span class="page-link">{% trans "Previous" %}</span>
+              </li>
+            {% endif %}
+            {% for i in page_obj.paginator.page_range %}
+              {% if page_obj.number == i %}
+                <li class="page-item active">
+                    <span class="page-link">{{ i }} <span class="sr-only">(current)</span></span>
+                </li>
+              {% else %}
+                <li class="page-item"> <a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+              {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+              <li class="page-item"> <a class="page-link" href="?page={{ page_obj.next_page_number }}">{% trans "Next" %}</a></li>
+            {% else %}
+              <li class="page-item disabled"><span class="page-link">{% trans "Next" %}</span></li>
+            {% endif %}
+          </ul>
+        {% endif %}
+    {% else %}
+        <p>No Transactions found!!! :(</p>
+    {% endif %}
+
+{% endblock %}

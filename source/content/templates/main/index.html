@@ -1,0 +1,33 @@
+{% extends 'layouts/default/page.html' %}
+
+{% load i18n %}
+
+{% block content %}
+
+    <div class="col-xl-11 px-xl-6 px-lg-4 px-md-3 py-md-4">
+        <div class="card card-body card-lg shadow-3d rounded-sm mb-4 mb-md-5">
+            <h2 class="h1">{% trans 'Welcome to Currency Exchange Application.' %}</h2>
+            <h1 class="h3" style="font-weight:normal;color:#333;">
+                Features
+            </h1>
+            <p>
+                <ul>
+                    <li>Integrate third party currency conversion service</li>
+                    <li>
+                        Create user account that will have following things and must have a UI for it
+                        <ol>
+                            <li>Login/Signup</li>
+                            <li>Wallet</li>
+                            <li>Profile of user with profile photo, default currency of user.(Both will be editable
+                                from the UI)</li>
+                            <li>Credit/Debit user using any currency and amount(Currency conversion should
+                                take place)</li>
+                            <li>Transfer money to another user that is present in the application.</li>
+                        </ol>
+                    </li>
+                </ul>
+            </p>
+        </div>
+    </div>
+
+{% endblock %}
